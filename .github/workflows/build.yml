@@ -1,0 +1,51 @@
+name: Build/release
+
+on:
+    push:
+        tags:
+            - "*"
+
+jobs:
+    release:
+        runs-on: ${{ matrix.os }}
+
+        strategy:
+            matrix:
+                os: [macos-latest, ubuntu-latest, windows-latest]
+
+        steps:
+            - name: Check out Git repository
+              uses: actions/checkout@v1
+
+            - name: Install Node.js, NPM and Yarn
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 16
+
+            - name: Install Ubuntu X11
+              if: matrix.os == 'ubuntu-latest'
+              run: sudo apt-get install libx11-dev libxext-dev libxtst-dev libxrender-dev libxmu-dev libxmuu-dev
+
+            - name: ${{ matrix.os }} build
+              run: |
+                  npm install
+                  npm run dist
+
+            - name: upload
+              uses: actions/upload-artifact@v3
+              with:
+                  path: |
+                      build/*.exe
+                      build/*.zip
+                      build/*.tar.gz
+                      build/*.deb
+                      build/*.rpm
+                      build/*.dmg
+
+            - name: release
+              uses: softprops/action-gh-release@v1
+              with:
+                  files: "build/*"
+                  draft: true
+              env:
+                  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
