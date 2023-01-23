@@ -214,20 +214,11 @@ ipcMain.on("tab_view", (e, id, arg, arg2) => {
                 height: main_window.getContentBounds().height - 32,
             });
             break;
-        case "back":
-            search_window.webContents.goBack();
-            break;
-        case "forward":
-            search_window.webContents.goForward();
-            break;
         case "stop":
             search_window.webContents.stop();
             break;
         case "reload":
             search_window.webContents.reload();
-            break;
-        case "home":
-            min_views(main_window);
             break;
         case "save_html":
             main_window["html"] = arg2;
