@@ -5,6 +5,7 @@ import * as path from "path";
 const run_path = path.join(path.resolve(__dirname, ""), "../../");
 import * as fs from "fs";
 import url from "node:url";
+const cors = require("cors-anywhere");
 
 // 自定义用户路径
 try {
@@ -55,8 +56,20 @@ function renderer_path(window: BrowserWindow | Electron.WebContents, file_name: 
 
 app.commandLine.appendSwitch("enable-experimental-web-platform-features", "enable");
 
+var server = cors
+    .createServer({
+        originWhitelist: [],
+        requireHeader: ["origin", "x-requested-with"],
+        removeHeaders: ["cookie", "cookie2"],
+    })
+    .listen(18888, "localhost", () => {});
+
 app.whenReady().then(() => {
     create_main_window();
+});
+
+app.on("window-all-closed", () => {
+    server.close();
 });
 
 var the_icon = null;

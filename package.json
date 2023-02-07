@@ -16,7 +16,9 @@
     },
     "homepage": "https://github.com/xushengfeng/xln-desktop/",
     "license": "GPL-3.0",
-    "dependencies": {},
+    "dependencies": {
+        "cors-anywhere": "^0.4.4"
+    },
     "devDependencies": {
         "@types/node": "^18.8.4",
         "electron": "^22.0.1",
