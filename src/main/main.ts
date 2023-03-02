@@ -4,6 +4,8 @@ import { app, BrowserWindow, ipcMain, nativeTheme, BrowserView } from "electron"
 import * as path from "path";
 const run_path = path.join(path.resolve(__dirname, ""), "../../");
 import * as fs from "fs";
+import Store from "electron-store";
+var store = new Store();
 
 // 自定义用户路径
 try {
@@ -36,7 +38,7 @@ app.commandLine.appendSwitch("enable-experimental-web-platform-features", "enabl
 app.commandLine.appendSwitch("disable-web-security");
 
 app.whenReady().then(() => {
-    create_main_window("https://xlinkote.netlify.app/");
+    create_main_window((store.get("window.last") as string) || "https://xlinkote.netlify.app/");
 });
 
 var the_icon = null;
@@ -77,6 +79,7 @@ async function create_main_window(url: string) {
 
     main_window.on("closed", () => {
         delete main_window_l[window_name];
+        store.set("window.last", url);
     });
 
     return window_name;
