@@ -38,7 +38,7 @@ app.commandLine.appendSwitch("enable-experimental-web-platform-features", "enabl
 app.commandLine.appendSwitch("disable-web-security");
 
 app.whenReady().then(() => {
-    create_main_window((store.get("window.last") as string) || "https://xlinkote.netlify.app/");
+    create_main_window(store.get("window.last") as string);
 });
 
 var the_icon = null;
@@ -57,15 +57,24 @@ var main_window_l: { [n: number]: BrowserWindow } = {};
  * @type {Object.<number, Array.<number>>}
  */
 var main_to_search_l: { [n: number]: Array<number> } = {};
-async function create_main_window(url: string) {
+async function create_main_window(id: string) {
     var window_name = new Date().getTime();
+    let r = store.get(`window.${id}`) as { x: number; y: number; w: number; h: number; m: boolean };
     var main_window = (main_window_l[window_name] = new BrowserWindow({
         backgroundColor: nativeTheme.shouldUseDarkColors ? "#0f0f0f" : "#ffffff",
         icon: the_icon,
         show: true,
+        width: r?.w || 800,
+        height: r?.h || 600,
     })) as BrowserWindow;
 
+    if (r?.m) main_window.maximize();
+    if (typeof r?.x == "number") main_window.setBounds({ x: r.x });
+    if (typeof r?.y == "number") main_window.setBounds({ y: r.y });
+
     main_to_search_l[window_name] = [];
+
+    let url = "https://xlinkote.netlify.app/#" + (id || "");
 
     // 自定义界面
     main_window.loadURL(url);
@@ -73,13 +82,22 @@ async function create_main_window(url: string) {
     if (dev) main_window.webContents.openDevTools();
 
     main_window.webContents.setWindowOpenHandler(({ url }) => {
-        create_main_window(url);
+        create_main_window(new URL(url).hash.slice(1));
         return { action: "deny" };
     });
 
+    main_window.on("close", () => {
+        store.set(`window.${id}`, {
+            x: main_window.getNormalBounds().x,
+            y: main_window.getNormalBounds().y,
+            w: main_window.getNormalBounds().width,
+            h: main_window.getNormalBounds().height,
+            m: main_window.isMaximized(),
+        });
+    });
     main_window.on("closed", () => {
         delete main_window_l[window_name];
-        store.set("window.last", url);
+        store.set("window.last", id);
     });
 
     return window_name;
