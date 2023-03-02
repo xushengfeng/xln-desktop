@@ -1,11 +1,12 @@
 /// <reference types="vite/client" />
 // Modules to control application life and create native browser window
-import { app, BrowserWindow, ipcMain, nativeTheme, BrowserView } from "electron";
+import { app, BrowserWindow, ipcMain, nativeTheme, shell } from "electron";
 import * as path from "path";
 const run_path = path.join(path.resolve(__dirname, ""), "../../");
 import * as fs from "fs";
 import Store from "electron-store";
 var store = new Store();
+import contextMenu from "electron-context-menu";
 
 // 自定义用户路径
 try {
@@ -101,4 +102,58 @@ async function create_main_window(id: string) {
     });
 
     return window_name;
+}
+
+contextMenu({
+    prepend: (defaultActions, parameters, browserWindow) => [
+        {
+            label: "搜索“{selection}”",
+            visible: parameters.selectionText.trim().length > 0,
+            click: () => {
+                shell.openExternal(get_search_url(parameters.selectionText));
+            },
+        },
+        {
+            label: "临时搜索“{selection}”",
+            visible: parameters.selectionText.trim().length > 0,
+            click: () => {
+                search_window(get_search_url(parameters.selectionText));
+            },
+        },
+    ],
+    showInspectElement: false,
+    showSelectAll: false,
+    showSearchWithGoogle: false,
+    showLookUpSelection: false,
+    showLearnSpelling: false,
+    labels: {
+        copy: "复制",
+        cut: "剪切",
+        paste: "粘贴",
+    },
+});
+
+function get_search_url(text: string) {
+    return `https://cn.bing.com/search?q=${encodeURIComponent(text)}`;
+}
+
+function search_window(url: string) {
+    let search_w = new BrowserWindow({
+        backgroundColor: nativeTheme.shouldUseDarkColors ? "#0f0f0f" : "#ffffff",
+        icon: the_icon,
+        show: true,
+    });
+
+    search_w.loadURL(url);
+
+    let close_time = null;
+
+    search_w.webContents.on("blur", () => {
+        close_time = setTimeout(() => {
+            search_w.close();
+        }, 1000);
+    });
+    search_w.webContents.on("focus", () => {
+        clearTimeout(close_time);
+    });
 }
