@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>xlinkote客户端设置</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="supported-color-schemes" content="light dark">
+    <link rel="stylesheet" type="text/css" href="css/setting.css">
+</head>
+
+<body>
+    <div id="find">
+        <input type="text" name="查找" id="find_input" title="{查找}" autocomplete="off" autocorrect="off"
+            autocapitalize="off" spellcheck="false">
+        <div id="find_t"></div>
+        <button title="{上一个匹配}" id="find_b_last"><img src="./assets/icons/up.svg" class="icon"></button>
+        <button title="{下一个匹配}" id="find_b_next"><img src="./assets/icons/down.svg" class="icon"></button>
+        <button title="{关闭}" id="find_b_close"><img src="./assets/icons/close.svg" class="icon"></button>
+    </div>
+
+    <div id="main">
+        <div id="menu"></div>
+
+        <div id="setting_main">
+            <div id="setting_item">
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script src="setting/setting.ts" type="module"></script>
+
+</html>
