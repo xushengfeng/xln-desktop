@@ -19,8 +19,7 @@
     "dependencies": {
         "cors-anywhere": "^0.4.4",
         "electron-context-menu": "^3.6.1",
-        "electron-store": "^8.1.0",
-        "menubar": "^9.3.0"
+        "electron-store": "^8.1.0"
     },
     "devDependencies": {
         "@types/node": "^18.8.4",

@@ -1,13 +1,12 @@
 /// <reference types="vite/client" />
 // Modules to control application life and create native browser window
-import { app, BrowserWindow, ipcMain, nativeTheme, shell } from "electron";
+import { app, BrowserWindow, ipcMain, nativeTheme, shell, Tray } from "electron";
 import * as path from "path";
 const run_path = path.join(path.resolve(__dirname, ""), "../../");
 import * as fs from "fs";
 import Store from "electron-store";
 var store = new Store();
 import contextMenu from "electron-context-menu";
-import { menubar } from "menubar";
 
 // 自定义用户路径
 try {
@@ -42,10 +41,21 @@ app.commandLine.appendSwitch("disable-web-security");
 app.whenReady().then(() => {
     create_main_window(store.get("window.last") as string);
 
-    const mb = menubar({
-        index: "https://xlinkote.netlify.app",
-        icon: process.platform == "linux" ? `${run_path}/assets/logo/32x32.png` : `${run_path}/assets/logo/16x16.png`,
-    });
+    function neww() {
+        let main_window = new BrowserWindow({
+            backgroundColor: nativeTheme.shouldUseDarkColors ? "#0f0f0f" : "#ffffff",
+            icon: the_icon,
+            show: false,
+            frame: false,
+        });
+        main_window.loadURL("https://xlinkote.netlify.app");
+        return main_window;
+    }
+    let main_window = neww();
+
+    let tray = new Tray(
+        process.platform == "linux" ? `${run_path}/assets/logo/32x32.png` : `${run_path}/assets/logo/16x16.png`
+    );
 });
 
 var the_icon = null;
