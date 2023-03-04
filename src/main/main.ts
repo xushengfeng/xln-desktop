@@ -115,9 +115,16 @@ async function create_main_window(id: string) {
     main_window.on("closed", () => {
         delete main_window_l[window_name];
         store.set("window.last", id);
+        check_w();
     });
 
     return window_name;
+}
+
+function check_w() {
+    if (BrowserWindow.getAllWindows().length == 1 && !store.get("background")) {
+        app.quit();
+    }
 }
 
 contextMenu({
