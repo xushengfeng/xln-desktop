@@ -154,7 +154,7 @@ async function create_main_window(id: string) {
         main_window.webContents.setZoomFactor((store.get("外观.缩放") as number) || 1.0);
     });
     main_window.on("close", () => {
-        store.set(`window.${id}`, {
+        store.set(`window.${id || ""}`, {
             x: main_window.getNormalBounds().x,
             y: main_window.getNormalBounds().y,
             w: main_window.getNormalBounds().width,
