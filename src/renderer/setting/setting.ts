@@ -129,6 +129,21 @@ font_size_el.onchange = () => {
     字体.大小 = Number(font_size_el.value);
 };
 
+let font_l = ["sans-serif", "serif", "monospace"];
+// @ts-ignore
+for (let i of await window.queryLocalFonts()) {
+    if (!font_l.includes(i.family)) {
+        font_l.push(i.family);
+    }
+}
+for (let i of font_l) {
+    let op = document.createElement("option");
+    op.value = i;
+    op.innerText = i;
+    document.getElementById("主要字体").append(op.cloneNode(true));
+    document.getElementById("等宽字体").append(op);
+}
+
 (<HTMLInputElement>document.getElementById("后台")).checked = old_store.主要.后台;
 
 set_radio(document.getElementById("深色模式"), old_store?.外观?.深色模式);
@@ -141,16 +156,16 @@ document.getElementById("深色模式").onclick = () => {
 var 字体 = old_store.外观.字体;
 document.documentElement.style.setProperty("--main-font", 字体.主要字体);
 document.documentElement.style.setProperty("--monospace", 字体.等宽字体);
-(<HTMLInputElement>document.querySelector("#主要字体 > input")).value = 字体.主要字体;
-(<HTMLInputElement>document.querySelector("#等宽字体 > input")).value = 字体.等宽字体;
+(<HTMLInputElement>document.getElementById("主要字体")).value = 字体.主要字体;
+(<HTMLInputElement>document.getElementById("等宽字体")).value = 字体.等宽字体;
 (<HTMLInputElement>document.getElementById("字体大小")).value = String(字体.大小);
 
-(<HTMLInputElement>document.querySelector("#主要字体 > input")).oninput = () => {
-    字体.主要字体 = (<HTMLInputElement>document.querySelector("#主要字体 > input")).value;
+(<HTMLInputElement>document.getElementById("主要字体")).oninput = () => {
+    字体.主要字体 = (<HTMLInputElement>document.getElementById("主要字体")).value;
     document.documentElement.style.setProperty("--main-font", 字体.主要字体);
 };
-(<HTMLInputElement>document.querySelector("#等宽字体 > input")).oninput = () => {
-    字体.等宽字体 = (<HTMLInputElement>document.querySelector("#等宽字体 > input")).value;
+(<HTMLInputElement>document.getElementById("等宽字体")).oninput = () => {
+    字体.等宽字体 = (<HTMLInputElement>document.getElementById("等宽字体")).value;
     document.documentElement.style.setProperty("--monospace", 字体.等宽字体);
 };
 
