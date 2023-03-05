@@ -16,8 +16,7 @@ function t(t: string) {
     return t;
 }
 
-const default_setting = {
-    window: old_store.window,
+let default_setting = {
     主要: {
         硬件加速: true,
         后台: false,
@@ -47,6 +46,9 @@ const default_setting = {
         上次更新时间: 0,
     },
 };
+
+if (old_store?.["window"]) default_setting["window"] = old_store["window"];
+if (old_store?.搜索?.引擎) default_setting.搜索.引擎 = old_store.搜索.引擎;
 
 function add_o(t1: Object, t2: Object) {
     let ot = structuredClone(t1);
