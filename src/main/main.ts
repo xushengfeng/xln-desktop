@@ -228,7 +228,7 @@ function search_window(url: string) {
 
     search_w.webContents.on("blur", () => {
         close_time = setTimeout(() => {
-            search_w.close();
+            if (!search_w.isDestroyed) search_w.close();
         }, 1000);
     });
     search_w.webContents.on("focus", () => {
