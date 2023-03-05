@@ -5,7 +5,37 @@ import * as path from "path";
 const run_path = path.join(path.resolve(__dirname, ""), "../../");
 import * as fs from "fs";
 import Store from "electron-store";
-var store = new Store();
+let default_setting = {
+    主要: {
+        硬件加速: true,
+        后台: false,
+    },
+    外观: { 深色模式: "system", 缩放: 1, 字体: { 主要字体: "sans-serif", 等宽字体: "monospace", 大小: 16 } },
+    搜索: {
+        引擎: [
+            ["Google", "https://www.google.com/search?q=%s"],
+            ["百度", "https://www.baidu.com/s?wd=%s"],
+            ["必应", "https://cn.bing.com/search?q=%s"],
+            ["Yandex", "https://yandex.com/search/?text=%s"],
+        ],
+        默认: "必应",
+    },
+    网络: {
+        代理: {
+            mode: "direct",
+            pacScript: "",
+            proxyRules: "",
+            proxyBypassRules: "",
+        },
+    },
+    更新: {
+        检查更新: true,
+        频率: "setting",
+        dev: false,
+        上次更新时间: 0,
+    },
+};
+var store = new Store({ defaults: default_setting });
 import contextMenu from "electron-context-menu";
 import url from "node:url";
 
