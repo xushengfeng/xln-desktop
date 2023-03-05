@@ -290,20 +290,20 @@ window.onblur = save_setting;
 
 function save_setting() {
     if (give_up) return;
-    old_store.主要.后台 = (<HTMLInputElement>document.getElementById("后台")).checked;
-    old_store.外观.缩放 = Number((<HTMLInputElement>document.getElementById("全局缩放")).value);
-    old_store.外观.字体 = 字体;
-    if (o_搜索引擎) old_store.搜索.引擎 = o_搜索引擎;
-    old_store.搜索.默认 = get_radio(document.getElementById("默认搜索引擎"));
-    old_store.网络.代理 = {
+    xstore.主要.后台 = (<HTMLInputElement>document.getElementById("后台")).checked;
+    xstore.外观.缩放 = Number((<HTMLInputElement>document.getElementById("全局缩放")).value);
+    xstore.外观.字体 = 字体;
+    if (o_搜索引擎) xstore.搜索.引擎 = o_搜索引擎;
+    xstore.搜索.默认 = get_radio(document.getElementById("默认搜索引擎"));
+    xstore.网络.代理 = {
         mode: get_radio(document.getElementById("代理")),
         pacScript: (<HTMLInputElement>document.getElementById("pacScript")).value,
         proxyRules: set_proxy(),
         proxyBypassRules: (<HTMLInputElement>document.getElementById("proxyBypassRules")).value,
     };
-    old_store.主要.硬件加速 = (<HTMLInputElement>document.getElementById("硬件加速")).checked;
-    old_store.更新.dev = (<HTMLInputElement>document.getElementById("dev")).checked;
-    old_store.更新.频率 = get_radio(document.getElementById("检查更新频率"));
+    xstore.主要.硬件加速 = (<HTMLInputElement>document.getElementById("硬件加速")).checked;
+    xstore.更新.dev = (<HTMLInputElement>document.getElementById("dev")).checked;
+    xstore.更新.频率 = get_radio(document.getElementById("检查更新频率"));
     if (user_data_path_inputed)
         fs.writeFile("preload_config", (<HTMLInputElement>document.getElementById("user_data_path")).value, (e) => {
             if (e) throw new Error(t("保存失败，请确保软件拥有运行目录的修改权限，或重新使用管理员模式打开软件"));
