@@ -1,12 +1,13 @@
 /// <reference types="vite/client" />
 // Modules to control application life and create native browser window
-import { app, BrowserWindow, ipcMain, nativeTheme, shell, Tray } from "electron";
+import { app, BrowserWindow, ipcMain, Menu, nativeTheme, shell, Tray } from "electron";
 import * as path from "path";
 const run_path = path.join(path.resolve(__dirname, ""), "../../");
 import * as fs from "fs";
 import Store from "electron-store";
 var store = new Store();
 import contextMenu from "electron-context-menu";
+import url from "node:url";
 
 // 自定义用户路径
 try {
@@ -20,6 +21,10 @@ try {
         app.setPath("userData", userDataPath);
     }
 } catch (e) {}
+
+function t(t: string) {
+    return t;
+}
 
 // 其他应用打开
 if (process.platform == "linux")
@@ -56,6 +61,37 @@ app.whenReady().then(() => {
     let tray = new Tray(
         process.platform == "linux" ? `${run_path}/assets/logo/32x32.png` : `${run_path}/assets/logo/16x16.png`
     );
+    let contextMenu = Menu.buildFromTemplate([
+        {
+            label: t("摘录"),
+            click: () => {
+                create_main_window("");
+            },
+        },
+        {
+            label: t("设置"),
+            click: () => {
+                create_setting_window();
+            },
+        },
+        {
+            type: "separator",
+        },
+        {
+            label: t("重启"),
+            click: () => {
+                app.relaunch();
+                app.exit(0);
+            },
+        },
+        {
+            label: t("退出"),
+            click: () => {
+                app.quit();
+            },
+        },
+    ]);
+    tray.setContextMenu(contextMenu);
 });
 
 var the_icon = null;
@@ -179,4 +215,44 @@ function search_window(url: string) {
     search_w.webContents.on("focus", () => {
         clearTimeout(close_time);
     });
+}
+
+/** 加载网页 */
+function renderer_path(window: BrowserWindow | Electron.WebContents, file_name: string, q?: Electron.LoadFileOptions) {
+    if (!q) {
+        q = { query: { config_path: app.getPath("userData") } };
+    } else if (!q.query) {
+        q.query = { config_path: app.getPath("userData") };
+    } else {
+        q.query["config_path"] = app.getPath("userData");
+    }
+    if (!app.isPackaged && process.env["ELECTRON_RENDERER_URL"]) {
+        let main_url = `${process.env["ELECTRON_RENDERER_URL"]}/${file_name}`;
+        let x = new url.URL(main_url);
+        if (q) {
+            if (q.search) x.search = q.search;
+            if (q.query) {
+                for (let i in q.query) {
+                    x.searchParams.set(i, q.query[i]);
+                }
+            }
+            if (q.hash) x.hash = q.hash;
+        }
+        window.loadURL(x.toString());
+    } else {
+        window.loadFile(path.join(__dirname, "../renderer", file_name), q);
+    }
+}
+
+function create_setting_window() {
+    let setting_window = new BrowserWindow({
+        backgroundColor: nativeTheme.shouldUseDarkColors ? "#0f0f0f" : "#ffffff",
+        icon: the_icon,
+        show: true,
+    }) as BrowserWindow;
+
+    // 自定义界面
+    renderer_path(setting_window, "setting.html");
+
+    if (dev) setting_window.webContents.openDevTools();
 }
