@@ -21,7 +21,7 @@ let default_setting = {
         硬件加速: true,
         后台: false,
     },
-    外观: { 深色模式: "", 缩放: 1, 字体: { 主要字体: "", 等宽字体: "", 大小: 14 } },
+    外观: { 深色模式: "", 缩放: 1, 字体: { 主要字体: "sans-serif", 等宽字体: "monospace", 大小: 16 } },
     搜索: {
         引擎: [
             ["Google", "https://www.google.com/search?q=%s"],
