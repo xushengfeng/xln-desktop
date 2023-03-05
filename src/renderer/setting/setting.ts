@@ -286,7 +286,6 @@ window.onbeforeunload = () => {
     } catch {
         ipcRenderer.send("setting", "save_err");
     }
-    ipcRenderer.send("setting", "reload_main");
 };
 
 window.onblur = save_setting;

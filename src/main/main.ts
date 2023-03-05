@@ -316,3 +316,14 @@ ipcMain.on("theme", (e, v) => {
     nativeTheme.themeSource = v;
     store.set("外观.深色模式", v);
 });
+
+ipcMain.on("setting", (e, v) => {
+    switch (v) {
+        case "save_err":
+            console.log("设置保存错误");
+            break;
+
+        default:
+            break;
+    }
+});
