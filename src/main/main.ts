@@ -42,6 +42,9 @@ if (process.argv.includes("-d") || import.meta.env.DEV) {
 
 app.commandLine.appendSwitch("enable-experimental-web-platform-features", "enable");
 app.commandLine.appendSwitch("disable-web-security");
+if (!store.get("主要.硬件加速")) {
+    app.disableHardwareAcceleration();
+}
 
 app.whenReady().then(() => {
     create_main_window(store.get("window.last") as string);
@@ -92,6 +95,8 @@ app.whenReady().then(() => {
         },
     ]);
     tray.setContextMenu(contextMenu);
+
+    nativeTheme.themeSource = store.get("外观.深色模式") as "system" | "light" | "dark";
 });
 
 var the_icon = null;
@@ -119,6 +124,10 @@ async function create_main_window(id: string) {
         show: true,
         width: r?.w || 800,
         height: r?.h || 600,
+        webPreferences: {
+            defaultFontFamily: store.get("外观.字体.主要字体"),
+            defaultFontSize: store.get("外观.字体.主要字体") as number,
+        },
     })) as BrowserWindow;
 
     if (r?.m) main_window.maximize();
@@ -134,11 +143,16 @@ async function create_main_window(id: string) {
 
     if (dev) main_window.webContents.openDevTools();
 
+    await main_window.webContents.session.setProxy(store.get("网络.代理"));
+
     main_window.webContents.setWindowOpenHandler(({ url }) => {
         create_main_window(new URL(url).hash.slice(1));
         return { action: "deny" };
     });
 
+    main_window.webContents.on("did-finish-load", () => {
+        main_window.webContents.setZoomFactor((store.get("外观.缩放") as number) || 1.0);
+    });
     main_window.on("close", () => {
         store.set(`window.${id}`, {
             x: main_window.getNormalBounds().x,
@@ -158,7 +172,7 @@ async function create_main_window(id: string) {
 }
 
 function check_w() {
-    if (BrowserWindow.getAllWindows().length == 1 && !store.get("background")) {
+    if (BrowserWindow.getAllWindows().length == 1 && !store.get("主要.后台")) {
         app.quit();
     }
 }
