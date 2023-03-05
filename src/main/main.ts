@@ -249,7 +249,12 @@ function create_setting_window() {
         backgroundColor: nativeTheme.shouldUseDarkColors ? "#0f0f0f" : "#ffffff",
         icon: the_icon,
         show: true,
-    }) as BrowserWindow;
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+            webSecurity: false,
+        },
+    });
 
     // 自定义界面
     renderer_path(setting_window, "setting.html");
