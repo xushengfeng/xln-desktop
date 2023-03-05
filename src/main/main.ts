@@ -275,3 +275,8 @@ function create_setting_window() {
 
     if (dev) setting_window.webContents.openDevTools();
 }
+
+ipcMain.on("theme", (e, v) => {
+    nativeTheme.themeSource = v;
+    store.set("外观.深色模式", v);
+});
