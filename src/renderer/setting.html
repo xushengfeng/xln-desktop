@@ -88,130 +88,131 @@
                     autocorrect="off" autocapitalize="off" spellcheck="false" title="{换行新建项目，%s代替关键字}"></textarea>
                 <div name="" id="默认搜索引擎div">
                 </div>
-                <div id="setting_item">
-                    <h1>
-                        <t>代理</t>
-                    </h1>
+            </div>
+            <div id="setting_item">
+                <h1>
+                    <t>代理</t>
+                </h1>
 
-                    <div id="代理">
-                        <label><input type="radio" name="代理" value="system">系统代理</label>
-                        <label><input type="radio" name="代理" value="fixed_servers">固定服务器</label>
-                        <label><input type="radio" name="代理" value="pac_script">PAC脚本</label>
-                        <label><input type="radio" name="代理" value="auto_detect">自动检测</label>
-                        <label><input type="radio" name="代理" value="direct">无代理</label>
-                    </div>
-                    </br>
-                    <div id="pacScript_p">
-                        <t>PAC URL：</t>
-                        <input type="text" spellcheck="false" id="pacScript">
-                    </div>
-                    <div id="proxyRules_p">
-                        <t>HTTP：</t>
-                        <input type="text" spellcheck="false" id="proxy_http">
-                        <br>
-                        <t>HTTPS：</t>
-                        <input type="text" spellcheck="false" id="proxy_https">
-                        <br>
-                        <t>FTP：</t>
-                        <input type="text" spellcheck="false" id="proxy_ftp">
-                        <br>
-                        <t>SOCKS：</t>
-                        <input type="text" spellcheck="false" id="proxy_socks">
-                    </div>
-                    <div id="proxyBypassRules_p">
-                        <t>排除规则：</t>
-                        <input type="text" spellcheck="false" id="proxyBypassRules">
-                    </div>
+                <div id="代理">
+                    <label><input type="radio" name="代理" value="system">系统代理</label>
+                    <label><input type="radio" name="代理" value="fixed_servers">固定服务器</label>
+                    <label><input type="radio" name="代理" value="pac_script">PAC脚本</label>
+                    <label><input type="radio" name="代理" value="auto_detect">自动检测</label>
+                    <label><input type="radio" name="代理" value="direct">无代理</label>
                 </div>
-                <div id="setting_item">
-                    <h1>
-                        <t>高级</t>
-                    </h1>
-
-                    <h2>
-                        <t>高级设置</t>
-                    </h2>
-                    <t>直接编辑设置源文件，更多自定义设置</t>
-                    <comment>
-                        <t>（需要JSON知识）</t>
-                    </comment>
+                </br>
+                <div id="pacScript_p">
+                    <t>PAC URL：</t>
+                    <input type="text" spellcheck="false" id="pacScript">
+                </div>
+                <div id="proxyRules_p">
+                    <t>HTTP：</t>
+                    <input type="text" spellcheck="false" id="proxy_http">
                     <br>
-                    <button id="打开config">
-                        <t>打开设置源文件</t>
+                    <t>HTTPS：</t>
+                    <input type="text" spellcheck="false" id="proxy_https">
+                    <br>
+                    <t>FTP：</t>
+                    <input type="text" spellcheck="false" id="proxy_ftp">
+                    <br>
+                    <t>SOCKS：</t>
+                    <input type="text" spellcheck="false" id="proxy_socks">
+                </div>
+                <div id="proxyBypassRules_p">
+                    <t>排除规则：</t>
+                    <input type="text" spellcheck="false" id="proxyBypassRules">
+                </div>
+            </div>
+            <div id="setting_item">
+                <h1>
+                    <t>高级</t>
+                </h1>
+
+                <h2>
+                    <t>高级设置</t>
+                </h2>
+                <t>直接编辑设置源文件，更多自定义设置</t>
+                <comment>
+                    <t>（需要JSON知识）</t>
+                </comment>
+                <br>
+                <button id="打开config">
+                    <t>打开设置源文件</t>
+                </button>
+                <br>
+                <button id="set_default_setting">
+                    <t>恢复默认设置</t>
+                </button>
+                <br>
+                <label>
+                    <input type="checkbox" id="give_up_setting_b">
+                    <t>不保存本次设置值</t>
+                </label>
+                <comment>
+                    <t>（若不清楚刚才更改了什么设置，请选中）</t>
+                </comment>
+
+                <h2>
+                    <t>硬件加速</t>
+                </h2>
+                <label>
+                    <input type="checkbox" name="" id="硬件加速">
+                    <t>启用硬件加速</t>
+                </label>
+                <comment>
+                    <t>（如果可用，且更改需要重启软件生效）</t>
+                </comment>
+
+                <h2>
+                    <t>检查更新</t>
+                </h2>
+                <div id="检查更新频率">
+                    <label><input type="radio" name="检查更新频率" value="manual">手动检查</label>
+                    <label><input type="radio" name="检查更新频率" value="setting">设置启动时检查</label>
+                    <label><input type="radio" name="检查更新频率" value="weekly">每周检查</label>
+                    <label><input type="radio" name="检查更新频率" value="start">启动时检查</label>
+                </div>
+                <label>
+                    <input type="checkbox" name="" id="dev">
+                    <t>检查测试版更新</t>
+                </label>
+
+                <h2 id="path_info">
+                    <t>位置信息</t>
+                </h2>
+                <t>配置目录：</t><input type="text" spellcheck="false" id="user_data_path">
+                <div id="user_data_divs">
+                    <button id="reload">
+                        <t>重启软件以生效</t>
                     </button>
-                    <br>
-                    <button id="set_default_setting">
-                        <t>恢复默认设置</t>
+                    <button id="move_user_data">
+                        <t>复制文件</t>
                     </button>
-                    <br>
-                    <label>
-                        <input type="checkbox" id="give_up_setting_b">
-                        <t>不保存本次设置值</t>
-                    </label>
-                    <comment>
-                        <t>（若不清楚刚才更改了什么设置，请选中）</t>
-                    </comment>
-
-                    <h2>
-                        <t>硬件加速</t>
-                    </h2>
-                    <label>
-                        <input type="checkbox" name="" id="硬件加速">
-                        <t>启用硬件加速</t>
-                    </label>
-                    <comment>
-                        <t>（如果可用，且更改需要重启软件生效）</t>
-                    </comment>
-
-                    <h2>
-                        <t>检查更新</t>
-                    </h2>
-                    <div id="检查更新频率">
-                        <label><input type="radio" name="检查更新频率" value="manual">手动检查</label>
-                        <label><input type="radio" name="检查更新频率" value="setting">设置启动时检查</label>
-                        <label><input type="radio" name="检查更新频率" value="weekly">每周检查</label>
-                        <label><input type="radio" name="检查更新频率" value="start">启动时检查</label>
-                    </div>
-                    <label>
-                        <input type="checkbox" name="" id="dev">
-                        <t>检查测试版更新</t>
-                    </label>
-
-                    <h2 id="path_info">
-                        <t>位置信息</t>
-                    </h2>
-                    <t>配置目录：</t><input type="text" spellcheck="false" id="user_data_path">
-                    <div id="user_data_divs">
-                        <button id="reload">
-                            <t>重启软件以生效</t>
-                        </button>
-                        <button id="move_user_data">
-                            <t>复制文件</t>
-                        </button>
-                    </div>
-
-                    <h2 id="versions_info">
-                        <t>版本信息</t>
-                    </h2>
                 </div>
 
-                <div id="setting_item">
-                    <h1>
-                        <t>关于</t>
-                    </h1>
-                    <div id="about">
-                        <img src="./assets/icon.svg" alt="Logo">
-                        <div id="about_main">
-                            <div id="name"></div>
-                            <button id="version" title="{检查更新}"></button>
-                            <div id="description"></div>
-                        </div>
-                        <div id="update_info"></div>
-                        <div id="info"></div>
+                <h2 id="versions_info">
+                    <t>版本信息</t>
+                </h2>
+            </div>
+
+            <div id="setting_item">
+                <h1>
+                    <t>关于</t>
+                </h1>
+                <div id="about">
+                    <img src="./assets/icon.svg" alt="Logo">
+                    <div id="about_main">
+                        <div id="name"></div>
+                        <button id="version" title="{检查更新}"></button>
+                        <div id="description"></div>
                     </div>
+                    <div id="update_info"></div>
+                    <div id="info"></div>
                 </div>
             </div>
         </div>
+    </div>
 
 </body>
 
