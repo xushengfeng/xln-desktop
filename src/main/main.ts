@@ -164,7 +164,7 @@ async function create_main_window(id: string) {
     });
     main_window.on("closed", () => {
         delete main_window_l[window_name];
-        store.set("window.last", id);
+        store.set("window.last", id || "");
         check_w();
     });
 
