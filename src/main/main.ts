@@ -207,6 +207,11 @@ contextMenu({
 });
 
 function get_search_url(text: string) {
+    for (let i of store.get("搜索.引擎") as [string, string][]) {
+        if (i[0] == store.get("搜索.默认")) {
+            return i[1].replace("%s", encodeURIComponent(text));
+        }
+    }
     return `https://cn.bing.com/search?q=${encodeURIComponent(text)}`;
 }
 
