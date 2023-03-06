@@ -54,7 +54,7 @@ if (old_store?.搜索?.引擎) default_setting.搜索.引擎 = old_store.搜索.
 function add_o(t1: Object, t2: Object) {
     let ot = structuredClone(t1);
     function w(i: string, o1: Object, o2: Object) {
-        if (typeof o1[i] == "object") {
+        if (typeof o1[i] == "object" && Array.isArray(o1[i])) {
             for (let x in o1[i]) {
                 if (o2[i]) w(x, o1[i], o2[i]);
             }
