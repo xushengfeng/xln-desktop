@@ -281,15 +281,7 @@ document.getElementById("give_up_setting_b").oninput = () => {
     if (give_up) fs.writeFileSync(store.path, JSON.stringify(old_store, null, 2));
 };
 
-window.onbeforeunload = () => {
-    try {
-        save_setting();
-    } catch {
-        ipcRenderer.send("setting", "save_err");
-    }
-};
-
-window.onblur = save_setting;
+window.onclick = window.onkeyup = save_setting;
 
 function save_setting() {
     if (give_up) return;
