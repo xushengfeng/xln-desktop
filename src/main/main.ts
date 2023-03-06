@@ -11,7 +11,7 @@ let default_setting = {
         后台: false,
     },
     外观: { 深色模式: "system", 缩放: 1, 字体: { 主要字体: "sans-serif", 等宽字体: "monospace", 大小: 16 } },
-    笔记: { 摘录: "" },
+    笔记: { 摘录: "", 常用: [] },
     搜索: {
         引擎: [
             ["Google", "https://www.google.com/search?q=%s"],
@@ -95,6 +95,27 @@ app.whenReady().then(() => {
     let tray = new Tray(
         process.platform == "linux" ? `${run_path}/assets/logo/32x32.png` : `${run_path}/assets/logo/16x16.png`
     );
+    let 常用笔记 = (store.get("笔记.常用") as string[]) || [];
+    let menu: Electron.MenuItemConstructorOptions[] = [];
+    for (let i of 常用笔记) {
+        let l = i.split(",");
+        if (l.length == 2) {
+            menu.push({
+                label: l[0].trim(),
+                click: () => {
+                    create_main_window(l[1].trim());
+                },
+            });
+        }
+        if (l.length == 1) {
+            menu.push({
+                label: l[0].trim(),
+                click: () => {
+                    create_main_window(l[0].trim());
+                },
+            });
+        }
+    }
     let contextMenu = Menu.buildFromTemplate([
         {
             label: t("摘录"),
@@ -102,6 +123,7 @@ app.whenReady().then(() => {
                 create_main_window(store.get("笔记.摘录"));
             },
         },
+        ...(((store.get("笔记.常用") as string[]) || []).length != 0 ? [{ label: t("常用"), submenu: menu }] : []),
         {
             label: t("设置"),
             click: () => {

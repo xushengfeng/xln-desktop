@@ -22,7 +22,7 @@ let default_setting = {
         后台: false,
     },
     外观: { 深色模式: "system", 缩放: 1, 字体: { 主要字体: "sans-serif", 等宽字体: "monospace", 大小: 16 } },
-    笔记: { 摘录: "" },
+    笔记: { 摘录: "", 常用: [] },
     搜索: {
         引擎: [
             ["Google", "https://www.google.com/search?q=%s"],
@@ -171,6 +171,7 @@ document.documentElement.style.setProperty("--monospace", 字体.等宽字体);
 };
 
 (<HTMLInputElement>document.getElementById("摘录")).value = old_store.笔记.摘录;
+(<HTMLTextAreaElement>document.getElementById("笔记列表")).value = old_store.笔记.常用.join("\n");
 
 var o_搜索引擎 = old_store.搜索.引擎;
 if (o_搜索引擎) {
@@ -296,6 +297,7 @@ function save_setting() {
     xstore.外观.缩放 = Number((<HTMLInputElement>document.getElementById("全局缩放")).value);
     xstore.外观.字体 = 字体;
     xstore.笔记.摘录 = (<HTMLInputElement>document.getElementById("摘录")).value;
+    xstore.笔记.常用 = (<HTMLTextAreaElement>document.getElementById("笔记列表")).value.split("\n");
     if (o_搜索引擎) xstore.搜索.引擎 = o_搜索引擎;
     xstore.搜索.默认 = get_radio(document.getElementById("默认搜索引擎"));
     xstore.网络.代理 = {
