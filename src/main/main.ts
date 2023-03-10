@@ -162,16 +162,10 @@ if (process.platform == "win32") {
 const isMac = process.platform === "darwin";
 
 // 主页面
-var main_window_l: { [n: number]: BrowserWindow } = {};
 
-/**
- * @type {Object.<number, Array.<number>>}
- */
-var main_to_search_l: { [n: number]: Array<number> } = {};
 async function create_main_window(id: string) {
-    var window_name = new Date().getTime();
     let r = store.get(`window.${id}`) as { x: number; y: number; w: number; h: number; m: boolean };
-    var main_window = (main_window_l[window_name] = new BrowserWindow({
+    let main_window = new BrowserWindow({
         backgroundColor: nativeTheme.shouldUseDarkColors ? "#0f0f0f" : "#ffffff",
         icon: the_icon,
         show: true,
@@ -181,13 +175,11 @@ async function create_main_window(id: string) {
             defaultFontFamily: store.get("外观.字体.主要字体"),
             defaultFontSize: store.get("外观.字体.主要字体") as number,
         },
-    })) as BrowserWindow;
+    });
 
     if (r?.m) main_window.maximize();
     if (typeof r?.x == "number") main_window.setBounds({ x: r.x });
     if (typeof r?.y == "number") main_window.setBounds({ y: r.y });
-
-    main_to_search_l[window_name] = [];
 
     let url = "https://xlinkote.netlify.app/#" + (id || "");
 
@@ -215,12 +207,9 @@ async function create_main_window(id: string) {
         });
     });
     main_window.on("closed", () => {
-        delete main_window_l[window_name];
         store.set("window.last", id || "");
         check_w();
     });
-
-    return window_name;
 }
 
 function check_w() {
