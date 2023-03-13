@@ -191,7 +191,8 @@ async function create_main_window(id: string) {
     await main_window.webContents.session.setProxy(store.get("网络.代理"));
 
     main_window.webContents.setWindowOpenHandler(({ url }) => {
-        create_main_window(new URL(url).hash.slice(1));
+        if (url.includes("https://xlinkote.netlify.app/")) create_main_window(new URL(url).hash.slice(1));
+        else shell.openExternal(url);
         return { action: "deny" };
     });
 
