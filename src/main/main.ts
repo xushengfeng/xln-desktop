@@ -29,6 +29,9 @@ let default_setting = {
             proxyBypassRules: "",
         },
     },
+    自动备份: {
+        位置: "",
+    },
     更新: {
         检查更新: true,
         频率: "setting",

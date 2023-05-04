@@ -40,6 +40,11 @@ let default_setting = {
             proxyBypassRules: "",
         },
     },
+    自动备份: {
+        频率: 0,
+        上次备份时间: 0,
+        位置: "",
+    },
     更新: {
         检查更新: true,
         频率: "setting",
@@ -204,6 +209,8 @@ document.getElementById("搜索引擎").onchange = () => {
     set_radio(document.getElementById("默认搜索引擎"), o_搜索引擎[0][0]);
 };
 
+(<HTMLInputElement>document.getElementById("自动备份目录")).value = old_store.自动备份.位置;
+
 var proxy_l = ["http", "https", "ftp", "socks"];
 
 var 代理 = old_store.网络.代理;
@@ -292,6 +299,10 @@ function save_setting() {
     xstore.笔记.常用 = (<HTMLTextAreaElement>document.getElementById("笔记列表")).value.split("\n");
     if (o_搜索引擎) xstore.搜索.引擎 = o_搜索引擎;
     xstore.搜索.默认 = get_radio(document.getElementById("默认搜索引擎"));
+    xstore.自动备份.频率 = (<HTMLInputElement>document.getElementById("自动备份")).checked
+        ? Number((<HTMLInputElement>document.getElementById("自动备份频率")).value)
+        : 0;
+    xstore.自动备份.位置 = (<HTMLInputElement>document.getElementById("自动备份目录")).value;
     xstore.网络.代理 = {
         mode: get_radio(document.getElementById("代理")),
         pacScript: (<HTMLInputElement>document.getElementById("pacScript")).value,
