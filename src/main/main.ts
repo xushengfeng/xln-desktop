@@ -202,7 +202,7 @@ async function create_main_window(id: string) {
     main_window.webContents.setZoomFactor((store.get("外观.缩放") as number) || 1.0);
 
     main_window.webContents.session.on("will-download", (e, item) => {
-        if (item.getFilename().match(/xln_db_\d{8}/)) {
+        if (item.getFilename().match(/xln_db_\d{8}\.zip/)) {
             item.setSavePath(store.get("自动备份.位置") || path.join(app.getPath("downloads"), "xln"));
         }
     });
