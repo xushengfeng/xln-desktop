@@ -203,7 +203,9 @@ async function create_main_window(id: string) {
 
     main_window.webContents.session.on("will-download", (e, item) => {
         if (item.getFilename().match(/xln_db_\d{8}\.zip/)) {
-            item.setSavePath(store.get("自动备份.位置") || path.join(app.getPath("downloads"), "xln"));
+            item.setSavePath(
+                path.join(store.get("自动备份.位置") || app.getPath("downloads"), "xln", item.getFilename())
+            );
         }
     });
 
