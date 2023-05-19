@@ -74,6 +74,11 @@ if (process.argv.includes("-d") || import.meta.env.DEV) {
     dev = false;
 }
 
+const isFirstInstance = app.requestSingleInstanceLock();
+if (!isFirstInstance) {
+    app.quit();
+}
+
 app.commandLine.appendSwitch("enable-experimental-web-platform-features", "enable");
 app.commandLine.appendSwitch("disable-web-security");
 if (!store.get("主要.硬件加速")) {
