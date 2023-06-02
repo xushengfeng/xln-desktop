@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 // Modules to control application life and create native browser window
-import { app, BrowserWindow, ipcMain, Menu, nativeTheme, shell, Tray } from "electron";
+import { app, BrowserWindow, dialog, ipcMain, Menu, nativeTheme, shell, Tray } from "electron";
 import * as path from "path";
 const run_path = path.join(path.resolve(__dirname, ""), "../../");
 import * as fs from "fs";
@@ -211,6 +211,21 @@ async function create_main_window(id: string) {
             item.setSavePath(
                 path.join(store.get("自动备份.位置") || app.getPath("downloads"), "xln", item.getFilename())
             );
+        }
+    });
+
+    main_window.webContents.on("will-prevent-unload", (event) => {
+        const choice = dialog.showMessageBoxSync(main_window, {
+            type: "question",
+            buttons: ["离开", "保留"],
+            title: "你想关闭这个笔记吗？",
+            message: "你的更改不会被保存",
+            defaultId: 0,
+            cancelId: 1,
+        });
+        const leave = choice === 0;
+        if (leave) {
+            event.preventDefault();
         }
     });
 
